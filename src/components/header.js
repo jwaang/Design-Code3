@@ -1,35 +1,42 @@
-import * as React from "react"
+// import * as React from "react"
+import React, { useState, useEffect } from "react"
+import "./header.css"
 import PropTypes from "prop-types"
 import { Link } from "gatsby"
 
-const Header = ({ siteTitle }) => (
-  <header
-    style={{
-      background: `rebeccapurple`,
-      marginBottom: `1.45rem`,
-    }}
-  >
-    <div
-      style={{
-        margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`,
-      }}
-    >
-      <h1 style={{ margin: 0 }}>
-        <Link
-          to="/"
-          style={{
-            color: `white`,
-            textDecoration: `none`,
-          }}
-        >
-          {siteTitle}
+const Header = ({ siteTitle }) => {
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll)
+  })
+
+  const [hasScrolled, setHasScrolled] = useState(false)
+
+  const handleScroll = event => {
+    const scrollTop = window.pageYOffset
+
+    if (scrollTop > 50) {
+      setHasScrolled(true)
+    } else {
+      setHasScrolled(false)
+    }
+  }
+
+  return (
+    <div className={hasScrolled ? "Header HeaderScrolled" : "Header"}>
+      <div className="HeaderGroup">
+        <Link to="/">
+          <img src={"/images/logo-designcode.svg"} width="30" />
         </Link>
-      </h1>
+        <Link to="/courses">Courses</Link>
+        <Link to="/downloads">Downloads</Link>
+        <Link to="/workshops">Workshops</Link>
+        <Link to="/buy">
+          <button>Buy</button>
+        </Link>
+      </div>
     </div>
-  </header>
-)
+  )
+}
 
 Header.propTypes = {
   siteTitle: PropTypes.string,
